@@ -48,7 +48,7 @@ public class SoundBoardArrayAdapter extends ArrayAdapter<File> {
         buttonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, String.valueOf(pos) + "'s button pressed");
+                Log.i(TAG, String.valueOf(pos) + "'s delete button pressed");
                 //TODO: Confirmation or sliding to reveal Delete
 
                 if(!files.get(pos).delete()) {

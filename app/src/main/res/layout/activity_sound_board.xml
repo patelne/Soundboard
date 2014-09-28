@@ -22,7 +22,7 @@
         <Button
             android:id="@+id/recordButton"
             android:text="@string/record"
-            android:textSize="50dp"
+            android:textSize="50sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"/>
