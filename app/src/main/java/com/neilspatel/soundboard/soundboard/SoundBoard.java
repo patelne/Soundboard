@@ -52,7 +52,7 @@ public class SoundBoard extends Activity {
         used for naming new recordings.
         This is just going to be the value after
         the current largest number.
-        ------------------------------------------*/
+        ------------------------------------------*//*
         mNextFileNumber = 0;
         for(String file : mDirectory.list()) {
             String[] split = file.split("\\.");
@@ -64,7 +64,7 @@ public class SoundBoard extends Activity {
             }
         }
         mNextFileNumber++;
-
+*/
         soundBiteFiles = new ArrayList<File>();
         Collections.addAll(soundBiteFiles, mDirectory.listFiles());
 
@@ -90,9 +90,9 @@ public class SoundBoard extends Activity {
         });
 
         /*------------------------------------------
-        Sets up the listeners for
-        selecting (playing)
-        holding (renaming)
+        Sets up the listeners for the listview
+        -onClick (play the soundbite)
+        -holding (rename file)
         ------------------------------------------*/
         setupListViewItemListeners();
 
@@ -139,7 +139,7 @@ public class SoundBoard extends Activity {
 
     private void setupListViewItemListeners() {
         /*------------------------------------------
-        List view item listener
+        onClick listener
         ------------------------------------------*/
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -167,6 +167,18 @@ public class SoundBoard extends Activity {
                 }catch(IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        /*------------------------------------------
+        onLongClick listener
+        ------------------------------------------*/
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                return true;
             }
         });
     }

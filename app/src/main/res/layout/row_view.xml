@@ -3,19 +3,25 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="beforeDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/title"
+        <EditText
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.85"
             android:layout_gravity="center"
-            android:textSize="20sp" >
-        </TextView>
+
+            style="@style/EditTextCustom"
+
+            android:textSize="20sp"
+
+            android:inputType="textAutoCorrect"
+            android:imeOptions="actionDone">
+        </EditText>
 
         <ImageButton
             android:id="@+id/deleteButton"
