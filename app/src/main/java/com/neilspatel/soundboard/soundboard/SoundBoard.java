@@ -6,8 +6,10 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -17,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SoundBoard extends Activity {
+public class SoundBoard extends Activity{
     private static final String TAG = "SoundBoardActivity";
     ListView mListView;
     Button mRecordButton;
@@ -136,6 +138,73 @@ public class SoundBoard extends Activity {
         });
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view,  menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sound_board, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.context_menu_rename:
+                Log.d(TAG, "Pressed rename");
+
+                /*------------------------------------------
+                Pop up a dialog to rename the soundbite file
+                ------------------------------------------*/
+                RenameFileDialogFragment dialog = new RenameFileDialogFragment();
+                dialog.show(getFragmentManager(), "rename_dialog_alert");
+                return true;
+
+            case R.id.context_menu_delete:
+                Log.d(TAG, "Pressed delete");
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public void onDialogOk(String userInputName) {
+        Log.d(TAG, "On Dialog OK button press: " + userInputName);
+
+        //TODO - getSelectedItem is returning null!!
+        //Maybe because the context menu has "finished"
+        //so the list has nothing to show anymore?
+        //Could just store off the last selected position...
+        File origFile = (File)mListView.getSelectedItem();
+
+        /*------------------------------------------
+        Set the new file name
+        ------------------------------------------*/
+        String newFilePath = origFile.getAbsolutePath();
+        newFilePath = newFilePath.substring(0, newFilePath.lastIndexOf("/"));
+        newFilePath = newFilePath.concat("/" + userInputName);
+
+        /*------------------------------------------
+        Create the new file. The old file will be
+        renamed to this one.
+        ------------------------------------------*/
+        //TODO don't hard code extension
+        File newFile = new File(newFilePath + ".3gp");
+
+        if(newFile.exists()) {
+            //TODO: notify file already exists.
+        } else {
+            /*------------------------------------------
+            Rename the file. Toast on failure.
+            ------------------------------------------*/
+            if(!origFile.renameTo(newFile)) {
+                Log.d(TAG, "file rename failed");
+                //TODO: notify rename fail
+                //Toast?
+            }
+        }
+    }
+
     private void setupListViewItemListeners() {
         /*------------------------------------------
         onClick listener
@@ -169,16 +238,6 @@ public class SoundBoard extends Activity {
             }
         });
 
-        /*------------------------------------------
-        onLongClick listener
-        ------------------------------------------*/
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                return true;
-            }
-        });
+        registerForContextMenu(mListView);
     }
 }
