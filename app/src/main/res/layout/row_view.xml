@@ -16,15 +16,5 @@
             android:layout_gravity="center"
             android:textSize="20sp">
         </TextView>
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:contentDescription="@string/delete_btn_desc"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:scaleType="centerCrop"
-            android:background="@android:color/transparent"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.12"/>
     </LinearLayout>
 </RelativeLayout>

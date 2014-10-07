@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Created by Neil on 10/2/2014.
  */
-public class RenameFileDialogFragment extends DialogFragment {
+public class TextDialogFragment extends DialogFragment {
     String TAG = "Rename Dialog";
     File mFile;
 
@@ -39,7 +39,7 @@ public class RenameFileDialogFragment extends DialogFragment {
                 Return the text that was entered in the dialog
                 ------------------------------------------*/
                 EditText editText = (EditText)view.findViewById(R.id.dialog_filename);
-                ((SoundBoard) (RenameFileDialogFragment.this.getActivity())).onDialogOk(editText.getText().toString());
+                boolean success = ((SoundBoard) (TextDialogFragment.this.getActivity())).onDialogOk(editText.getText().toString());
                 dismiss();
             }
         });

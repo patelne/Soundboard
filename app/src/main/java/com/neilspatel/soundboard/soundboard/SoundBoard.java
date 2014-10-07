@@ -26,7 +26,8 @@ public class SoundBoard extends Activity{
     MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
     File mDirectory;
-    int mNextFileNumber;
+    int mNextFileNumber = 0;
+    int mSelectedListItem = 0;
 
     boolean mRecording = false;
     SoundBoardArrayAdapter mSoundAdapter;
@@ -148,6 +149,9 @@ public class SoundBoard extends Activity{
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        mSelectedListItem = info.position;
+
         switch(item.getItemId()) {
             case R.id.context_menu_rename:
                 Log.d(TAG, "Pressed rename");
@@ -155,12 +159,18 @@ public class SoundBoard extends Activity{
                 /*------------------------------------------
                 Pop up a dialog to rename the soundbite file
                 ------------------------------------------*/
-                RenameFileDialogFragment dialog = new RenameFileDialogFragment();
+                TextDialogFragment dialog = new TextDialogFragment();
                 dialog.show(getFragmentManager(), "rename_dialog_alert");
                 return true;
 
             case R.id.context_menu_delete:
                 Log.d(TAG, "Pressed delete");
+
+                if(!soundBiteFiles.get(mSelectedListItem).delete()) {
+                    Log.i(TAG, "File delete failed");
+                }
+
+                mSoundAdapter.remove(soundBiteFiles.get(mSelectedListItem));
                 return true;
 
             default:
@@ -168,14 +178,19 @@ public class SoundBoard extends Activity{
         }
     }
 
-    public void onDialogOk(String userInputName) {
+    public boolean onDialogOk(String userInputName) {
         Log.d(TAG, "On Dialog OK button press: " + userInputName);
+
+        if(-1 == mSelectedListItem) {
+            Log.e(TAG, "Invalid list item index");
+            return false;
+        }
 
         //TODO - getSelectedItem is returning null!!
         //Maybe because the context menu has "finished"
         //so the list has nothing to show anymore?
         //Could just store off the last selected position...
-        File origFile = (File)mListView.getSelectedItem();
+        File origFile = soundBiteFiles.get(mSelectedListItem);
 
         /*------------------------------------------
         Set the new file name
@@ -193,14 +208,22 @@ public class SoundBoard extends Activity{
 
         if(newFile.exists()) {
             //TODO: notify file already exists.
+            return false;
         } else {
             /*------------------------------------------
             Rename the file. Toast on failure.
             ------------------------------------------*/
-            if(!origFile.renameTo(newFile)) {
+            if(origFile.renameTo(newFile)) {
+                /*------------------------------------------
+                Update the list adapter
+                ------------------------------------------*/
+                soundBiteFiles.set(mSelectedListItem, newFile);
+                mSoundAdapter.notifyDataSetChanged();
+                return true;
+            } else {
                 Log.d(TAG, "file rename failed");
                 //TODO: notify rename fail
-                //Toast?
+                return false;
             }
         }
     }
