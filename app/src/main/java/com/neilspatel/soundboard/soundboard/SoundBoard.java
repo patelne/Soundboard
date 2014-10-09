@@ -49,24 +49,6 @@ public class SoundBoard extends Activity{
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mDirectory = getExternalFilesDir(null);
 
-        /*------------------------------------------
-        Calculate and store the new file number
-        used for naming new recordings.
-        This is just going to be the value after
-        the current largest number.
-        ------------------------------------------*//*
-        mNextFileNumber = 0;
-        for(String file : mDirectory.list()) {
-            String[] split = file.split("\\.");
-            if(2 ==split.length &&
-               0 == split[1].compareTo("3gp")) {
-                if(mNextFileNumber < Integer.valueOf(split[0])) {
-                    mNextFileNumber = Integer.valueOf(split[0]);
-                }
-            }
-        }
-        mNextFileNumber++;
-*/
         soundBiteFiles = new ArrayList<File>();
         Collections.addAll(soundBiteFiles, mDirectory.listFiles());
 
@@ -196,10 +178,6 @@ public class SoundBoard extends Activity{
             return false;
         }
 
-        //TODO - getSelectedItem is returning null!!
-        //Maybe because the context menu has "finished"
-        //so the list has nothing to show anymore?
-        //Could just store off the last selected position...
         File origFile = soundBiteFiles.get(mSelectedListItem);
 
         /*------------------------------------------

@@ -17,7 +17,6 @@ import java.io.File;
  */
 public class TextDialogFragment extends DialogFragment {
     String TAG = "Rename Dialog";
-    File mFile;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
