@@ -22,13 +22,23 @@ public class SoundBoardArrayAdapter extends ArrayAdapter<File> {
         this.files = objects;
     }
 
+    private class ViewHolder {
+        TextView tv;
+    }
+
     public View getView(final int pos, View convertView, ViewGroup parent) {
-        View v = convertView;
 
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(null == convertView) {
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.row_view, parent, false);
 
-        final View rowView = inflater.inflate(R.layout.row_view, parent, false);
-        final TextView tv = (TextView) rowView.findViewById(R.id.name);
+            ViewHolder holder = new ViewHolder();
+            holder.tv = (TextView) convertView.findViewById(R.id.name);
+
+            convertView.setTag(holder);
+        }
+
+        ViewHolder v = (ViewHolder)convertView.getTag();
 
         /*------------------------------------------
         Use the file name as the title text but
@@ -36,8 +46,8 @@ public class SoundBoardArrayAdapter extends ArrayAdapter<File> {
         ------------------------------------------*/
         String name = files.get(pos).getName();
         name = name.substring(0, name.lastIndexOf("."));
-        tv.setText(name);
+        v.tv.setText(name);
 
-        return rowView;
+        return convertView;
     }
 }
