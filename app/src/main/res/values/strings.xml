@@ -7,5 +7,10 @@
     <string name="record">Record</string>
     <string name="recording">Recording...</string>
     <string name="delete_btn_desc">Delete button</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="dialog_rename_file">Rename file</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

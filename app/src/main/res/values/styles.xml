@@ -5,4 +5,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="EditTextCustom" parent="android:Widget.EditText">
+    </style>
+
 </resources>

@@ -1,12 +1,10 @@
 package com.neilspatel.soundboard.soundboard;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.File;
@@ -30,8 +28,7 @@ public class SoundBoardArrayAdapter extends ArrayAdapter<File> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final View rowView = inflater.inflate(R.layout.row_view, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.title);
-        ImageButton buttonView = (ImageButton) rowView.findViewById(R.id.deleteButton);
+        final TextView tv = (TextView) rowView.findViewById(R.id.name);
 
         /*------------------------------------------
         Use the file name as the title text but
@@ -39,24 +36,7 @@ public class SoundBoardArrayAdapter extends ArrayAdapter<File> {
         ------------------------------------------*/
         String name = files.get(pos).getName();
         name = name.substring(0, name.lastIndexOf("."));
-        textView.setText(name);
-
-        /*------------------------------------------
-        Set up the delete button listener.
-        Removes this view from the list and deletes the file
-        ------------------------------------------*/
-        buttonView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, String.valueOf(pos) + "'s delete button pressed");
-                //TODO: Confirmation or sliding to reveal Delete
-
-                if(!files.get(pos).delete()) {
-                    Log.i(TAG, "File delete failed");
-                }
-                remove(files.get(pos));
-            }
-        });
+        tv.setText(name);
 
         return rowView;
     }
