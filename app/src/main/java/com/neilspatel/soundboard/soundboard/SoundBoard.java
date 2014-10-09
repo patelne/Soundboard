@@ -26,7 +26,7 @@ public class SoundBoard extends Activity{
     MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
     File mDirectory;
-    int mNextFileNumber = 0;
+    int mNextFileNumber = 1;
     int mSelectedListItem = 0;
 
     boolean mRecording = false;
@@ -124,7 +124,17 @@ public class SoundBoard extends Activity{
                     mRecordButton.setText(R.string.recording);
                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                    mediaRecorder.setOutputFile(mDirectory.toString() + "/" + String.valueOf(mNextFileNumber) + ".3gp");
+
+                    /*------------------------------------------
+                    Find the next free file number
+                    ------------------------------------------*/
+                    String outputPath = mDirectory.toString() + "/" + String.valueOf(mNextFileNumber) + ".3gp";
+                    while(new File(outputPath).exists()) {
+                        mNextFileNumber++;
+                        outputPath = mDirectory.toString() + "/" + String.valueOf(mNextFileNumber) + ".3gp";
+                    }
+                    mediaRecorder.setOutputFile(outputPath);
+
                     mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
                     try {
                         mediaRecorder.prepare();
