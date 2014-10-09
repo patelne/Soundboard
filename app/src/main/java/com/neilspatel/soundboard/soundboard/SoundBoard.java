@@ -11,7 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.util.Collections;
 public class SoundBoard extends Activity{
     private static final String TAG = "SoundBoardActivity";
     ListView mListView;
-    Button mRecordButton;
+    ImageButton mRecordButton;
     MediaPlayer mediaPlayer;
     MediaRecorder mediaRecorder;
     File mDirectory;
@@ -43,7 +43,7 @@ public class SoundBoard extends Activity{
         Initialize
         ------------------------------------------*/
         mListView = (ListView) findViewById(R.id.listView);
-        mRecordButton = (Button) findViewById(R.id.recordButton);
+        mRecordButton = (ImageButton) findViewById(R.id.recordButton);
         mediaRecorder = new MediaRecorder();
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -91,7 +91,7 @@ public class SoundBoard extends Activity{
                 recorder and update the list view.
                 ------------------------------------------*/
                 if (mRecording) {
-                    mRecordButton.setText(R.string.record);
+                    mRecordButton.setImageResource(R.drawable.record_start_icon);
                     mediaRecorder.stop();
                     mRecording = false;
                     mSoundAdapter.add(new File(mDirectory.toString() + "/" + String.valueOf(mNextFileNumber) + ".3gp"));
@@ -103,7 +103,7 @@ public class SoundBoard extends Activity{
                 next available number
                 ------------------------------------------*/
                 else {
-                    mRecordButton.setText(R.string.recording);
+                    mRecordButton.setImageResource(R.drawable.record_stop_icon);
                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 

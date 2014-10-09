@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <ListView
             android:id = "@+id/listView"
             android:layout_width="match_parent"
@@ -19,10 +20,10 @@
             android:layout_weight="1">
         </ListView>
 
-        <Button
+        <ImageButton
             android:id="@+id/recordButton"
-            android:text="@string/record"
-            android:textSize="50sp"
+            android:src="@drawable/record_start_icon"
+            android:contentDescription="@string/start_recording"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"/>
